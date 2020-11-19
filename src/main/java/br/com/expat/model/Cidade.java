@@ -21,7 +21,7 @@ public class Cidade implements Serializable {
 	private Long id;
 
 	@Column(name = "nm_cidade", length = 80)
-	private String cidade;
+	private String municipio;
 
 	@Column(name = "sg_UF", length = 2)
 	private String estado;
@@ -37,12 +37,12 @@ public class Cidade implements Serializable {
 		this.id = id;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public String getMunicipio() {
+		return municipio;
 	}
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
 	}
 
 	public String getEstado() {
@@ -57,7 +57,7 @@ public class Cidade implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -70,18 +70,22 @@ public class Cidade implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cidade other = (Cidade) obj;
-		if (cidade == null) {
-			if (other.cidade != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!cidade.equals(other.cidade))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Cidade [id=" + id + ", cidade=" + cidade + ", estado=" + estado + "]";
+		return "Cidade [id=" + id + ", municipio=" + municipio + ", estado=" + estado + "]";
 	}
+	
+	
+
+
 	
 
 }

@@ -15,45 +15,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.expat.model.Cidade;
-import br.com.expat.service.CidadeService;
-
+import br.com.expat.model.Usuario;
+import br.com.expat.service.UsuarioService;
 
 @RestController
-@RequestMapping("/expat/cidade")
-public class CidadeResource implements ResourceInterface<Cidade> {
+@RequestMapping("/expat/usuario")
+public class UsuarioResource implements ResourceInterface<Usuario> {
 
 	@Autowired
-	private CidadeService service = new CidadeService();
+	private UsuarioService service = new UsuarioService();
 
 	@Override
 	@GetMapping	
-	public ResponseEntity<List<Cidade>> get() {
+	public ResponseEntity<List<Usuario>> get() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
 	@Override
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
-		Cidade _cidade = service.findById(id);
-		if (_cidade != null)
-			return ResponseEntity.ok(_cidade);
+		Usuario _usuario = service.findById(id);
+		if (_usuario != null)
+			return ResponseEntity.ok(_usuario);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<Cidade> post(@RequestBody Cidade cidade) {
-		service.create(cidade);
-		return ResponseEntity.ok(cidade);
+	public ResponseEntity<Usuario> post(@RequestBody Usuario usuario) {
+		service.create(usuario);
+		return ResponseEntity.ok(usuario);
 	}
 
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<?> put(@RequestBody Cidade cidade) {
-		if (service.update(cidade)) {
-			return ResponseEntity.ok(cidade);
+	public ResponseEntity<?> put(@RequestBody Usuario usuario) {
+		if (service.update(usuario)) {
+			return ResponseEntity.ok(usuario);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}

@@ -1,35 +1,56 @@
 package br.com.expat.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Table(name = "tb_usuarios")
 @Entity
 public class Usuario implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cd_usuario", length = 20)
 	private long id;
-	
+
 	@Column(name = "ds_email", length = 60)
 	private String email;
-	
+
 	@Column(name = "pw_usuario", length = 60)
 	private String password;
-	
+
 	@Column(name = "nm_usuario", length = 60)
 	private String nome;
-	
-	public Usuario() {	
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "tb_perfil")
+	private Set<Integer> perfis = new HashSet<>();
+
+	public Set<TipoUsuario> getPerfis() {
+		return perfis.stream().map(x -> TipoUsuario.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(TipoUsuario perfil) {
+		this.perfis.add(perfil.getCod());
+	}
+
+	public Usuario() {
 	}
 
 	public long getId() {
@@ -48,10 +69,12 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
-
+	
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -93,7 +116,5 @@ public class Usuario implements Serializable {
 	public String toString() {
 		return "Usuario [id=" + id + ", email=" + email + ", password=" + password + ", nome=" + nome + "]";
 	}
-	
-	
 
 }
