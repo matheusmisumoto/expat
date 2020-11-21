@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {
 			"/expat/usuario/**",
+			"/expat/custo/**",
+			"/expat/cidade/**" 
 			};
 	
 	@Override
