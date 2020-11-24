@@ -17,23 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.expat.model.Cidade;
 import br.com.expat.service.CidadeService;
+import io.swagger.annotations.ApiOperation;
 
 
 @RestController
-@RequestMapping("/expat/cidade")
+@RequestMapping("/api/cidade")
 public class CidadeResource implements ResourceInterface<Cidade> {
 
 	@Autowired
 	private CidadeService service = new CidadeService();
 
 	@Override
-	@GetMapping	
+	@GetMapping(produces = "application/json")
+	@ApiOperation(value = "Retorna a lista de cidades")
 	public ResponseEntity<List<Cidade>> get() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
 	@Override
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
+	@ApiOperation(value = "Retorna uma cidade")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
 		Cidade _cidade = service.findById(id);
 		if (_cidade != null)
@@ -42,15 +45,17 @@ public class CidadeResource implements ResourceInterface<Cidade> {
 	}
 	
 	@Override
-	@PostMapping
+	@PostMapping(produces = "application/json")
+	@ApiOperation(value = "Insere uma cidade")
 	public ResponseEntity<Cidade> post(@RequestBody Cidade cidade) {
 		service.create(cidade);
 		return ResponseEntity.ok(cidade);
 	}
 
 	@Override
-	@PutMapping
+	@PutMapping(produces = "application/json")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Edita uma cidade")
 	public ResponseEntity<?> put(@RequestBody Cidade cidade) {
 		if (service.update(cidade)) {
 			return ResponseEntity.ok(cidade);
@@ -59,8 +64,9 @@ public class CidadeResource implements ResourceInterface<Cidade> {
 	}
 
 	@Override
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/{id}", produces = "application/json")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Remove uma cidade")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		if (service.delete(id)) {
 			return ResponseEntity.ok().build();

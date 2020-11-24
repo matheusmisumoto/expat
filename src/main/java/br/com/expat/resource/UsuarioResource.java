@@ -17,22 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.expat.model.Usuario;
 import br.com.expat.service.UsuarioService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/expat/usuario")
+@RequestMapping("/api/usuario")
 public class UsuarioResource implements ResourceInterface<Usuario> {
 
 	@Autowired
 	private UsuarioService service = new UsuarioService();
 
 	@Override
-	@GetMapping	
+	@GetMapping(produces = "application/json")
+	@ApiOperation(value = "Retorna uma lista de usuários")
 	public ResponseEntity<List<Usuario>> get() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
 	@Override
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
+	@ApiOperation(value = "Retorna dados de um usuário")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
 		Usuario _usuario = service.findById(id);
 		if (_usuario != null)
@@ -41,14 +44,16 @@ public class UsuarioResource implements ResourceInterface<Usuario> {
 	}
 	
 	@Override
-	@PostMapping
+	@PostMapping(produces = "application/json")
+	@ApiOperation(value = "Adiciona um usuário")
 	public ResponseEntity<Usuario> post(@RequestBody Usuario usuario) {
 		service.create(usuario);
 		return ResponseEntity.ok(usuario);
 	}
 
 	@Override
-	@PutMapping
+	@PutMapping(produces = "application/json")
+	@ApiOperation(value = "Edita um usuário")
 	public ResponseEntity<?> put(@RequestBody Usuario usuario) {
 		if (service.update(usuario)) {
 			return ResponseEntity.ok(usuario);
@@ -57,8 +62,9 @@ public class UsuarioResource implements ResourceInterface<Usuario> {
 	}
 
 	@Override
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/{id}", produces = "application/json")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Remove um usuário")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		if (service.delete(id)) {
 			return ResponseEntity.ok().build();

@@ -53,7 +53,5 @@ public class CustoService implements ServiceInterface<Custo> {
 		}
 		return false;
 	}
-
-	
 	
 }

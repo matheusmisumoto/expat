@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.expat.security.JWTUtil;
 import br.com.expat.security.UserDetailsImpl;
 import br.com.expat.service.UsuarioService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,6 +21,7 @@ public class AuthResource {
 	private JWTUtil jwtUtil;
 
 	@PostMapping(value = "/refresh_token")
+	@ApiOperation(value = "Autenticação")
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
 		UserDetailsImpl user = UsuarioService.authenticated();
 		if (user != null) {

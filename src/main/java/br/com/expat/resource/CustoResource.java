@@ -16,23 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.expat.model.Custo;
 import br.com.expat.service.CustoService;
+import io.swagger.annotations.ApiOperation;
 
 
 @RestController
-@RequestMapping("/expat/custo")
+@RequestMapping("/api/custo")
 public class CustoResource implements ResourceInterface<Custo> {
 
 	@Autowired
 	private CustoService service = new CustoService();
-
+	
 	@Override
-	@GetMapping	
+	@GetMapping(produces = "application/json")
+	@ApiOperation(value = "Retorna a lista de registros de custo de vida")
 	public ResponseEntity<List<Custo>> get() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
 	@Override
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
+	@ApiOperation(value = "Retorna um registro de custo de vida")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
 		Custo _custo = service.findById(id);
 		if (_custo != null)
@@ -41,14 +44,16 @@ public class CustoResource implements ResourceInterface<Custo> {
 	}
 	
 	@Override
-	@PostMapping
+	@PostMapping(produces = "application/json")
+	@ApiOperation(value = "Adiciona um registro de custo de vida")
 	public ResponseEntity<Custo> post(@RequestBody Custo custo) {
 		service.create(custo);
 		return ResponseEntity.ok(custo);
 	}
 
 	@Override
-	@PutMapping
+	@PutMapping(produces = "application/json")
+	@ApiOperation(value = "Edita um registro de custo de vida")
 	public ResponseEntity<?> put(@RequestBody Custo custo) {
 		if (service.update(custo)) {
 			return ResponseEntity.ok(custo);
@@ -57,8 +62,9 @@ public class CustoResource implements ResourceInterface<Custo> {
 	}
 
 	@Override
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+	@DeleteMapping(value = "/{id}", produces = "application/json")
+	@ApiOperation(value = "Remove um registro de custo de vida")
+		public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		if (service.delete(id)) {
 			return ResponseEntity.ok().build();
 		}
