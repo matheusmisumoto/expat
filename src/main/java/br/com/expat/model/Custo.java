@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Table(name = "tb_custo")
@@ -20,11 +22,8 @@ public class Custo implements Serializable {
 	@Column(name = "cd_analise", length = 20)
 	private long id;
 	
-	@Column(name = "cd_cidade")
-	private int codCidade;
-	
-	@Column(name = "cd_usuario")
-	private int codUsuario;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Cidade codCidade;
 
 	@Column(name = "vl_almoco")
 	private double almoco;
@@ -49,20 +48,12 @@ public class Custo implements Serializable {
 		this.id = id;
 	}
 
-	public int getCodCidade() {
+	public Cidade getCodCidade() {
 		return codCidade;
 	}
 
-	public void setCodCidade(int codCidade) {
+	public void setCodCidade(Cidade codCidade) {
 		this.codCidade = codCidade;
-	}
-
-	public int getCodUsuario() {
-		return codUsuario;
-	}
-
-	public void setCodUsuario(int codUsuario) {
-		this.codUsuario = codUsuario;
 	}
 
 	public double getAlmoco() {
@@ -101,8 +92,6 @@ public class Custo implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + codCidade;
-		result = prime * result + codUsuario;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
@@ -118,8 +107,6 @@ public class Custo implements Serializable {
 		Custo other = (Custo) obj;
 		if (codCidade != other.codCidade)
 			return false;
-		if (codUsuario != other.codUsuario)
-			return false;
 		if (id != other.id)
 			return false;
 		return true;
@@ -127,7 +114,7 @@ public class Custo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Custo [id=" + id + ", codCidade=" + codCidade + ", codUsuario=" + codUsuario + ", almoco=" + almoco
+		return "Custo [id=" + id + ", codCidade=" + codCidade + ", almoco=" + almoco
 				+ ", aluguel=" + aluguel + ", cestabasica=" + cestabasica + ", onibus=" + onibus + "]";
 	}
 

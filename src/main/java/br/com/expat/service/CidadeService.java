@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.expat.dto.MediaDTO;
 import br.com.expat.model.Cidade;
 import br.com.expat.repository.CidadeRepository;
 
@@ -52,6 +53,10 @@ public class CidadeService implements ServiceInterface<Cidade> {
 			return true;
 		}
 		return false;
+	}
+
+	public Cidade buscaCidade(String estado, String municipio) {
+		return repository.buscaCidade(estado, municipio);
 	}
 
 	

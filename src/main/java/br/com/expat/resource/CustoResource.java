@@ -42,7 +42,16 @@ public class CustoResource implements ResourceInterface<Custo> {
 			return ResponseEntity.ok(_custo);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+
 	
+	@GetMapping(value = "/cidade/{cidade}", produces = "application/json")
+	@ApiOperation(value = "Retorna a média de custo de vida")
+	public ResponseEntity<?> get(@PathVariable("cidade") int id) {
+		return ResponseEntity.ok(service.mediaCidade(id));
+
+	}
+	
+
 	@Override
 	@PostMapping(produces = "application/json")
 	@ApiOperation(value = "Adiciona um registro de custo de vida")

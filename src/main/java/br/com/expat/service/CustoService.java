@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.expat.dto.MediaDTO;
 import br.com.expat.model.Custo;
 import br.com.expat.repository.CustoRepository;
 
@@ -53,5 +54,8 @@ public class CustoService implements ServiceInterface<Custo> {
 		}
 		return false;
 	}
-	
+
+	public MediaDTO mediaCidade(int idCidade) {
+		return repository.mediaCidade(idCidade);
+	}
 }
