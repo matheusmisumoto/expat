@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.expat.dto.MediaDTO;
 import br.com.expat.model.Custo;
 import br.com.expat.service.CustoService;
 import io.swagger.annotations.ApiOperation;
@@ -47,8 +48,12 @@ public class CustoResource implements ResourceInterface<Custo> {
 	@GetMapping(value = "/cidade/{cidade}", produces = "application/json")
 	@ApiOperation(value = "Retorna a média de custo de vida")
 	public ResponseEntity<?> get(@PathVariable("cidade") int id) {
-		return ResponseEntity.ok(service.mediaCidade(id));
-
+		MediaDTO _custo = service.mediaCidade(id);
+		if (_custo != null) {
+			return ResponseEntity.ok(_custo);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 
